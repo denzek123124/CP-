@@ -1,0 +1,51 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Controll2 : MonoBehaviour
+
+{
+    public float speed;
+public float jump;
+public float gravity;
+private Vector3 moveDir = Vector3.zero;
+private CharacterController playerController;
+void Start()
+{
+    playerController = gameObject.GetComponent<CharacterController>();
+}
+void FixedUpdate()
+{
+    if (playerController.isGrounded)
+    {
+        moveDir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        moveDir = transform.TransformDirection(moveDir);
+        moveDir *= speed;
+    }
+    if (Input.GetKey(KeyCode.Space) && playerController.isGrounded)
+    {
+        moveDir.y = jump;
+    }
+
+        moveDir.y -= gravity * Time.deltaTime;
+    playerController.Move(moveDir * Time.deltaTime);
+
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+
+            playerController.height = 1f;
+
+        }
+        else playerController.height = 2f;
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+
+            speed = 12f;
+
+        }
+        else speed = 6f;
+
+
+    }
+}   
